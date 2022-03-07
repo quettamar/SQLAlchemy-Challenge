@@ -36,10 +36,14 @@ def welcome():
     """List all available api routes."""
     return (
         f"Available Routes:<br/>"
+        f"Precipitation by Date:<br/>"
         f"/api/v1.0/precipitation<br/>"
+        f"Station Information:<br/>"
         f"/api/v1.0/stations<br/>"
+        f"Dates and temperature observations of the most active station for the last year of data.<br/>"
         f"/api/v1.0/tobs<br/>"
-        f'Please enter a date between 2010-01-01 and 2017-08-23.<br/>'
+        f"Minimum, Maximum and Average Temperature observations of the most active station for a specified start and end date.</br>"
+        f'Please enter dates between 2010-01-01 and 2017-08-23.<br/>'
         f"/api/v1.0/start<br/>"
         f"/api/v1.0/start/end<br/>"
 
@@ -92,7 +96,7 @@ def tobs():
 
     """Query the dates and temperature observations of the most active station for the last year of data."""
     time_delta_one_year = dt.datetime(2017 , 8, 23) -dt.timedelta(days=365)
-    station_temp = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date >= time_delta_one_year).\
+    station_temp = session.query(Measurement.tobs).filter(Measurement.date >= time_delta_one_year).\
         filter(Measurement.station == "USC00519281").order_by(Measurement.date.desc()).all()
 
     session.close()
